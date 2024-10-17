@@ -76,3 +76,8 @@ func (s *SheetsService) GetTotalBalance() int64 {
 	}
 	return total
 }
+
+func (s *SheetsService) TransferBalance(from string, to string, balance float64, admin float64) {
+	s.PushMutation(from, 0, balance + admin, "transfer to " + to)
+	s.PushMutation(to, balance, 0, "receive from " + from)
+}

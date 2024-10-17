@@ -50,10 +50,27 @@ func main() {
 		}
 		sheetService.PushMutation(args[1], kredit, debit, args[4])
 		fmt.Println("done")
+	case "transfer", "t":
+		if len(args) < 5 {
+			fmt.Println("wallet from, wallet to, balance, and admin are required")
+		}
+		balance, err := strconv.ParseFloat(args[3], 64)
+		if err != nil {
+			fmt.Println("balance must be a number")
+			os.Exit(1)
+		}
+		admin, err := strconv.ParseFloat(args[4], 64)
+		if err != nil {
+			fmt.Println("admin must be a number")
+			os.Exit(1)
+		}
+		sheetService.TransferBalance(args[1], args[2], balance, admin)
+		fmt.Println("done")
 	case "help", "h":
-		fmt.Println("balance-all, ba: get total balance")
-		fmt.Println("balance, b: get current balance")
-		fmt.Println("mutate, m: push mutation <wallet> <kredit> <debit> <description>")
+		fmt.Println("balance-all, ba : get total balance")
+		fmt.Println("balance, b      : get current balance")
+		fmt.Println("mutate, m       : push mutation <wallet> <kredit> <debit> <description>")
+		fmt.Println("transfer, t     : trasfer <from> <to> <balance> <admin>")
 		fmt.Println("help, h: show this help")
 		os.Exit(0)
 	default:
